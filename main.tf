@@ -1,9 +1,9 @@
 resource "aws_launch_template" "web_server_as" {
     name = "myproject"
-    image_id           = "ami-02dfbd4ff395f2a1b"
+    image_id           = "ami-0e12ffc2dd465f6e4"
     vpc_security_group_ids = [aws_security_group.web_server.id]
     instance_type = "t3.micro"
-    key_name = "march-kp"
+    key_name = "Arun_key"
     tags = {
         Name = "DevOps"
     }
@@ -15,7 +15,7 @@ resource "aws_launch_template" "web_server_as" {
   resource "aws_elb" "web_server_lb"{
      name = "web-server-lb"
      security_groups = [aws_security_group.web_server.id]
-     subnets = ["subnet-05b5c04b3e4f5fc97", "subnet-078eaa4691fce41d5"]
+     subnets = ["subnet-02fc6aa492fa01293", "subnet-08b9c82044e995962"]
      listener {
       instance_port     = 8000
       instance_protocol = "http"
@@ -33,7 +33,7 @@ resource "aws_autoscaling_group" "web_server_asg" {
     desired_capacity     = 2
     health_check_type    = "EC2"
     load_balancers       = [aws_elb.web_server_lb.name]
-    availability_zones    = ["us-east-1a", "us-east-1b"] 
+    availability_zones    = ["ap-south-1"] 
     launch_template {
         id      = aws_launch_template.web_server_as.id
         version = "$Latest"
